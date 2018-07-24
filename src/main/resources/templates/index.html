@@ -7,14 +7,78 @@
 <body>
 <div th:replace="base :: nav"></div>
 
-<div class="container bg-light pl-5 pr-5">
+<div class="background-img">
+
+
+    <div class="space"></div>
+
+    <div class="space"></div>
+    <div class="jumbotron text-center background-title">
+        <h1>Harrison College</h1>
+    </div>
+    <div class="space"></div>
+
+
+    <div class="container bg-light pl-5 pr-5 background-main">
 
     <h3 class="p-4">HarrisonCollege</h3>
     <hr/>
 
-    <div align="center">
-        <div class="row text-center">
+    <p>Harrison College is a small liberal-arts school in Harrison, Pennsylvania.
+        In its 80 year history, Harrison has tried many new fads and trends, and in
+        that same time period it has turned its back on just as many.</p>
+
+
+    <button sec:authorize="!isAuthenticated()"  type="button" class="btn btn-info"><a href="/login" class="text-white"> Access Harrison
+    </a></button>
+        <div class="emptySpace"></div>
+    </div>
+    <!--<button sec:authorize="isAuthenticated()" type="button" class="btn btn-info"><a href="/logout"> Logout</a>-->
+    <!--</button>-->
+
+    <!--<li class="nav-item">-->
+        <!--<a sec:authorize="!isAuthenticated()" class="nav-link text-info" href="/login">Login</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item">-->
+        <!--<a sec:authorize="isAuthenticated()" class="nav-link text-info" href="/logout">Logout</a>-->
+    <!--</li>-->
+
+    <!--<div align="center">-->
+    <!--<h5 class="pl-4">Students</h5>-->
+
+        <div class="row">
             <!--<div th:if="${not #lists.isEmpty(messages}">No content yet.</div>-->
+
+
+            <div th:each="student : ${students}">
+
+                <!--<div class="cont-box">-->
+                <!--<span>Student Name</span>-->
+                <!--<div th:text="${student.name}"></div>-->
+                Student Name: <span th:inline="text">[[${student.name}]]</span> &nbsp;
+
+                Student ID: <span th:inline="text">[[${student.id}]]</span> &nbsp;
+
+                Student number: <span th:inline="text">[[${student.number}]]</span> &nbsp;
+
+                Student Year of Entry: <span th:inline="text">[[${student.yearOfEntry}]]</span> &nbsp;
+
+                <br/>
+
+                <!--<span>Student ID</span>-->
+                <!--<div th:text="${student.id}"></div>-->
+
+                <!--<span>Student Number</span>-->
+                <!--<div th:text="${student.number}"></div>-->
+
+                <!--<span>Student Year of Entry</span>-->
+                <!--<div th:text="${student.yearOfEntry}"></div>-->
+
+                <!--</div>-->
+
+            </div>
+
+
             <div th:each="course : ${courses}">
                 <div class="col-sm">
                     <div class="space"></div>
@@ -50,23 +114,23 @@
                         <!--<span th:text="${message.datePosted}"></span>-->
                     <!--</div>-->
                     <div>
-                        <span sec:authorize="hasAuthority('USER')">
-                            <a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>
-                        </span>
+                        <!--<span sec:authorize="hasAuthority('USER')">-->
+                            <!--<a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>-->
+                        <!--</span>-->
 
                         <!--<span th:if="${#authentication.roles } == ${message.username}">-->
                             <!--<a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>-->
                         <!--</span>-->
 
-                        <span sec:authorize="hasAuthority('ADMIN')">
-                            <a class="btn btn-info" th:href="@{/update/{id}(id=${message.id})}">Update</a>
-                        </span>
+                        <!--<span sec:authorize="hasAuthority('ADMIN')">-->
+                            <!--<a class="btn btn-info" th:href="@{/update/{id}(id=${course.id})}">Update</a>-->
+                        <!--</span>-->
 
-                        <a class="btn btn-info" th:href="@{/detail/{id}(id=${message.id})}">View</a>
+                        <!--<a class="btn btn-info" th:href="@{/detail/{id}(id=${course.id})}">View</a>-->
 
 
-                        <span sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-info"
-                                                                      th:href="@{/delete/{id}(id=${message.id})}">Delete</a></span>
+                        <!--<span sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-info"-->
+                                                                      <!--th:href="@{/delete/{id}(id=${course.id})}">Delete</a></span>-->
 
                         <div class="space"></div>
                         <!--<a class="text-secondary" th:href="@{/delete/{id}(id=${message.id})}">Delete</a>-->
@@ -80,6 +144,8 @@
     <footer th:replace="base :: footer"></footer>
     <br/>
 </div>
+
+
 <div class="space"></div>
 <div th:replace="base :: scripts"></div>
 </body>

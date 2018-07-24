@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+        <head>
+            <title>Home</title>
+            <th:block th:insert="base :: header"></th:block>
+        </head>
+<body>
+<div th:replace="base :: nav"></div>
+
+<div class="container bg-light pl-5 pr-5">
+    <div class="space"></div>
+
+    <h3> Class list <br></h3>
+
+    <!--<h4> Classroom: </h4>-->
+    <h4> Classroom: </h4>
+
+    <div th:each="classroom : ${classrooms}">
+        <h2 th:text="${classroom.buildingName}"></h2>
+        <h2 th:text="${classroom.roomNumber}"></h2>
+        <h2 th:text="${classroom.maxCapacity}"></h2>
+
+        <!--<th:block th:each="classroom : ${class.classroom}">-->
+        <!--<h2 th:text="${classroom.buildingName}"></h2>-->
+        <!--</th:block>-->
+    </div>
+
+    Major :
+    <div th:each="major : ${majors}">
+        <h2 th:text="${major.name}"></h2>
+    </div>
+
+    Class :
+    <div th:each="class : ${class}">
+        <h2 th:text="${class.subjectCode}"></h2>
+
+        <h2 th:text="${class.time}"></h2>
+        <h2 th:text="${class.crnNumber}"></h2>
+
+        <a th:href="@{/delete/{id}(id=${class.id})}"> Delete</a>
+
+        <!--<h2 th:text="${class.course.courseName}"></h2>-->
+    </div>
+
+    Department :
+    <div th:each="department : ${department}">
+        <h2 th:text="${department.name}"></h2>
+    </div>
+
+
+</div>
+<div class="emptySpace"></div>
+
+</body>
+</html>

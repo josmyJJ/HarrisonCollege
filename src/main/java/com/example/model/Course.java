@@ -1,8 +1,6 @@
 package com.example.model;
-
 import javax.persistence.*;
 import java.util.Collection;
-
 
 @Entity
 @Table(name="Course")
@@ -21,7 +19,6 @@ public class Course {
 
     @OneToMany(mappedBy="course")
     private Collection<Class> classes;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id")

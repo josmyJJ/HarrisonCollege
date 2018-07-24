@@ -1,14 +1,13 @@
 package com.example;
 
-import com.cloudinary.utils.ObjectUtils;
 import com.example.beckend.CloudinaryConfig;
 import com.example.beckend.UserService;
-import com.example.model.Course;
-import com.example.model.Pet;
-import com.example.model.User;
+import com.example.model.*;
+import com.example.repository.ClassroomRepository;
 import com.example.repository.CourseRepository;
 import com.example.repository.PetRepository;
 import com.example.repository.UserRepository;
+import com.example.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,15 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
 
 @Controller
 public class HomeController {
+    @Autowired
+    private IStudentService studentService;
 
     @Autowired
     private UserService userService;
@@ -40,6 +40,9 @@ public class HomeController {
 
     @Autowired
     CourseRepository courseRepository;
+
+    @Autowired
+    ClassroomRepository classroomRepository;
 
     @RequestMapping("/")
     public String index(@ModelAttribute Pet message, Model model){
@@ -58,10 +61,37 @@ public class HomeController {
         return "admin";
     }
 
+    @RequestMapping("/schedule")
+    public String studentSchedul(Model model){
+        model.addAttribute("students", studentService.getAllStudents());
+        List<Student> students = studentService.getAllStudents();
+        for (Iterator<Student> s = students.iterator(); s.hasNext();) {
+            Student item = s.next();
+            System.out.println(item.getName());
+        }
+        return "studentschedule";
+    }
+
+
     @RequestMapping("/student")
-    public String student(){
+    public String student(Model model){
         return "student";
     }
+
+    //classroom
+    @GetMapping("/addclassroom")
+    public String addclassroom(Model model){
+        model.addAttribute("classroom", new Classroom());
+        return "addclassroom";
+    }
+
+    @PostMapping("/processclassroom")
+    public String processclassroom(@ModelAttribute("classrooms") Classroom classroom){
+        classroomRepository.save(classroom);
+        //return "index";
+        return "classlist";
+    }
+
 
     @RequestMapping("/advisor")
     public String advisor(){
@@ -83,7 +113,6 @@ public class HomeController {
         return "secure";
     }
 
-
     @GetMapping("/add")
     public String messageForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -93,11 +122,8 @@ public class HomeController {
 //        model.addAttribute("imageLabel", "Upload Image");
         model.addAttribute("message", new Course());
         model.addAttribute("course", new Course());
-
         return "messageform";
     }
-
-
 
     @PostMapping("/process")
     public String processForm(HttpServletRequest request, @Valid @ModelAttribute Course course, BindingResult result
@@ -136,6 +162,9 @@ public class HomeController {
 
 //        message.setUser(user);
 //        message.setPosteddate();
+
+//        petRepository.save(course);
+
         courseRepository.save(course);
         return "redirect:/";
     }
